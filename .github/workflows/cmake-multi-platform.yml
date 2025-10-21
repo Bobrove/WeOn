@@ -1,0 +1,31 @@
+name: Build WeOn
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up CMake
+      uses: jwlawson/actions-setup-cmake@v2
+
+    - name: Configure
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+
+    - name: Build
+      run: cmake --build build --config Debug
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: WeOn_Binaries
+        path: build/bin
+
