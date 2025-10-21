@@ -1,17 +1,20 @@
-cmake_minimum_required(VERSION 3.16)
-project(WeOn)
+project(Test_Main)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+add_executable(Test_Main
+    main.cpp
+)
 
-# Пути
-set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(SUBSYSTEM_DIR ${ROOT_DIR}/SubSystem)
-set(PLUGINS_DIR ${ROOT_DIR}/Plugins)
-set(TEST_DIR ${ROOT_DIR}/Test_Main)
+target_include_directories(Test_Main PUBLIC
+    ${CMAKE_SOURCE_DIR}/SubSystem/Event_System
+    ${CMAKE_SOURCE_DIR}/SubSystem/Serializer
+    ${CMAKE_SOURCE_DIR}/Plugins/Platform/Platform_Win32_1.0
+)
 
-# Включаем подпроекты
-add_subdirectory(${SUBSYSTEM_DIR}/Event_System)
-add_subdirectory(${SUBSYSTEM_DIR}/Serializer)
-add_subdirectory(${PLUGINS_DIR}/Platform/Platform_Win32_1.0)
-add_subdirectory(${TEST_DIR})
+target_link_libraries(Test_Main
+    Event_System
+    Serializer
+)
+
+set_target_properties(Test_Main PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
